@@ -1,0 +1,2906 @@
+version: "3.9"
+
+services:
+  bootnode:
+    image: thor:latest
+    container_name: thor-bootnode
+    entrypoint: /usr/bin/thor --data-dir /root/node --network /root/genesis.json
+    ports:
+      - "1000:8669"
+      - "2000:11235"
+    volumes:
+      - ./config/bootnode:/root/.org.vechain.thor
+      - ./config/genesis.json:/root/genesis.json
+      - ./data/bootnode:/root/node
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.1
+  vecenter:
+    image: vecenter:latest
+    container_name: thor-vecenter
+    entrypoint: /usr/bin/vecenter -c 33 -begin 541 -port 9000
+    ports:
+      - "9000:9000"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.2
+  node0:
+    image: thor:latest
+    container_name: thor-node-0
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000010
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=0
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10000:8669"
+      - "20000:11235"
+    volumes:
+      - ./config/keys/master.key.0:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node0:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.3
+  node1:
+    image: thor:latest
+    container_name: thor-node-1
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000011
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=1
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10001:8669"
+      - "20001:11235"
+    volumes:
+      - ./config/keys/master.key.1:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node1:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.4
+  node2:
+    image: thor:latest
+    container_name: thor-node-2
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000012
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=2
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10002:8669"
+      - "20002:11235"
+    volumes:
+      - ./config/keys/master.key.2:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node2:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.5
+  node3:
+    image: thor:latest
+    container_name: thor-node-3
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000013
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=3
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10003:8669"
+      - "20003:11235"
+    volumes:
+      - ./config/keys/master.key.3:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node3:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.6
+  node4:
+    image: thor:latest
+    container_name: thor-node-4
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000014
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=4
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10004:8669"
+      - "20004:11235"
+    volumes:
+      - ./config/keys/master.key.4:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node4:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.7
+  node5:
+    image: thor:latest
+    container_name: thor-node-5
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000015
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=5
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10005:8669"
+      - "20005:11235"
+    volumes:
+      - ./config/keys/master.key.5:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node5:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.8
+  node6:
+    image: thor:latest
+    container_name: thor-node-6
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000016
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=6
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10006:8669"
+      - "20006:11235"
+    volumes:
+      - ./config/keys/master.key.6:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node6:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.9
+  node7:
+    image: thor:latest
+    container_name: thor-node-7
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000017
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=7
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10007:8669"
+      - "20007:11235"
+    volumes:
+      - ./config/keys/master.key.7:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node7:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.10
+  node8:
+    image: thor:latest
+    container_name: thor-node-8
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000018
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=8
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10008:8669"
+      - "20008:11235"
+    volumes:
+      - ./config/keys/master.key.8:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node8:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.11
+  node9:
+    image: thor:latest
+    container_name: thor-node-9
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000019
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=9
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10009:8669"
+      - "20009:11235"
+    volumes:
+      - ./config/keys/master.key.9:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node9:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.12
+  node10:
+    image: thor:latest
+    container_name: thor-node-10
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000020
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=10
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10010:8669"
+      - "20010:11235"
+    volumes:
+      - ./config/keys/master.key.10:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node10:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.13
+  node11:
+    image: thor:latest
+    container_name: thor-node-11
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000021
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=11
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10011:8669"
+      - "20011:11235"
+    volumes:
+      - ./config/keys/master.key.11:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node11:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.14
+  node12:
+    image: thor:latest
+    container_name: thor-node-12
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000022
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=12
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10012:8669"
+      - "20012:11235"
+    volumes:
+      - ./config/keys/master.key.12:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node12:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.15
+  node13:
+    image: thor:latest
+    container_name: thor-node-13
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000023
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=13
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10013:8669"
+      - "20013:11235"
+    volumes:
+      - ./config/keys/master.key.13:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node13:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.16
+  node14:
+    image: thor:latest
+    container_name: thor-node-14
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000024
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=14
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10014:8669"
+      - "20014:11235"
+    volumes:
+      - ./config/keys/master.key.14:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node14:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.17
+  node15:
+    image: thor:latest
+    container_name: thor-node-15
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000025
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=15
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10015:8669"
+      - "20015:11235"
+    volumes:
+      - ./config/keys/master.key.15:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node15:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.18
+  node16:
+    image: thor:latest
+    container_name: thor-node-16
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000026
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=16
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10016:8669"
+      - "20016:11235"
+    volumes:
+      - ./config/keys/master.key.16:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node16:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.19
+  node17:
+    image: thor:latest
+    container_name: thor-node-17
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000027
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=17
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10017:8669"
+      - "20017:11235"
+    volumes:
+      - ./config/keys/master.key.17:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node17:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.20
+  node18:
+    image: thor:latest
+    container_name: thor-node-18
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000028
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=18
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10018:8669"
+      - "20018:11235"
+    volumes:
+      - ./config/keys/master.key.18:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node18:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.21
+  node19:
+    image: thor:latest
+    container_name: thor-node-19
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000029
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=19
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10019:8669"
+      - "20019:11235"
+    volumes:
+      - ./config/keys/master.key.19:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node19:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.22
+  node20:
+    image: thor:latest
+    container_name: thor-node-20
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000030
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=20
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10020:8669"
+      - "20020:11235"
+    volumes:
+      - ./config/keys/master.key.20:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node20:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.23
+  node21:
+    image: thor:latest
+    container_name: thor-node-21
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000031
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=21
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10021:8669"
+      - "20021:11235"
+    volumes:
+      - ./config/keys/master.key.21:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node21:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.24
+  node22:
+    image: thor:latest
+    container_name: thor-node-22
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000032
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=22
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10022:8669"
+      - "20022:11235"
+    volumes:
+      - ./config/keys/master.key.22:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node22:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.25
+  node23:
+    image: thor:latest
+    container_name: thor-node-23
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000033
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=23
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10023:8669"
+      - "20023:11235"
+    volumes:
+      - ./config/keys/master.key.23:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node23:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.26
+  node24:
+    image: thor:latest
+    container_name: thor-node-24
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000034
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=24
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10024:8669"
+      - "20024:11235"
+    volumes:
+      - ./config/keys/master.key.24:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node24:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.27
+  node25:
+    image: thor:latest
+    container_name: thor-node-25
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000035
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=25
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10025:8669"
+      - "20025:11235"
+    volumes:
+      - ./config/keys/master.key.25:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node25:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.28
+  node26:
+    image: thor:latest
+    container_name: thor-node-26
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000036
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=26
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10026:8669"
+      - "20026:11235"
+    volumes:
+      - ./config/keys/master.key.26:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node26:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.29
+  node27:
+    image: thor:latest
+    container_name: thor-node-27
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000037
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=27
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10027:8669"
+      - "20027:11235"
+    volumes:
+      - ./config/keys/master.key.27:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node27:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.30
+  node28:
+    image: thor:latest
+    container_name: thor-node-28
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000038
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=28
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10028:8669"
+      - "20028:11235"
+    volumes:
+      - ./config/keys/master.key.28:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node28:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.31
+  node29:
+    image: thor:latest
+    container_name: thor-node-29
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000039
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=29
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10029:8669"
+      - "20029:11235"
+    volumes:
+      - ./config/keys/master.key.29:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node29:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.32
+  node30:
+    image: thor:latest
+    container_name: thor-node-30
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000040
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=30
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10030:8669"
+      - "20030:11235"
+    volumes:
+      - ./config/keys/master.key.30:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node30:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.33
+  node31:
+    image: thor:latest
+    container_name: thor-node-31
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000041
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=31
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10031:8669"
+      - "20031:11235"
+    volumes:
+      - ./config/keys/master.key.31:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node31:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.34
+  node32:
+    image: thor:latest
+    container_name: thor-node-32
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000042
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=32
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10032:8669"
+      - "20032:11235"
+    volumes:
+      - ./config/keys/master.key.32:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node32:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.35
+  node33:
+    image: thor:latest
+    container_name: thor-node-hack-33
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000043
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=33
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=0
+    ports:
+      - "10033:8669"
+      - "20033:11235"
+    volumes:
+      - ./config/keys/master.key.33:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node33:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.36
+  node34:
+    image: thor:latest
+    container_name: thor-node-hack-34
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000044
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=34
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=1
+    ports:
+      - "10034:8669"
+      - "20034:11235"
+    volumes:
+      - ./config/keys/master.key.34:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node34:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.37
+  node35:
+    image: thor:latest
+    container_name: thor-node-hack-35
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000045
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=35
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=2
+    ports:
+      - "10035:8669"
+      - "20035:11235"
+    volumes:
+      - ./config/keys/master.key.35:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node35:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.38
+  node36:
+    image: thor:latest
+    container_name: thor-node-hack-36
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000046
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=36
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=3
+    ports:
+      - "10036:8669"
+      - "20036:11235"
+    volumes:
+      - ./config/keys/master.key.36:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node36:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.39
+  node37:
+    image: thor:latest
+    container_name: thor-node-hack-37
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000047
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=37
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=4
+    ports:
+      - "10037:8669"
+      - "20037:11235"
+    volumes:
+      - ./config/keys/master.key.37:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node37:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.40
+  node38:
+    image: thor:latest
+    container_name: thor-node-hack-38
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000048
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=38
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=5
+    ports:
+      - "10038:8669"
+      - "20038:11235"
+    volumes:
+      - ./config/keys/master.key.38:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node38:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.41
+  node39:
+    image: thor:latest
+    container_name: thor-node-hack-39
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000049
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=39
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=6
+    ports:
+      - "10039:8669"
+      - "20039:11235"
+    volumes:
+      - ./config/keys/master.key.39:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node39:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.42
+  node40:
+    image: thor:latest
+    container_name: thor-node-hack-40
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000050
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=40
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=7
+    ports:
+      - "10040:8669"
+      - "20040:11235"
+    volumes:
+      - ./config/keys/master.key.40:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node40:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.43
+  node41:
+    image: thor:latest
+    container_name: thor-node-hack-41
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000051
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=41
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=8
+    ports:
+      - "10041:8669"
+      - "20041:11235"
+    volumes:
+      - ./config/keys/master.key.41:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node41:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.44
+  node42:
+    image: thor:latest
+    container_name: thor-node-hack-42
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000052
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=42
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=9
+    ports:
+      - "10042:8669"
+      - "20042:11235"
+    volumes:
+      - ./config/keys/master.key.42:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node42:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.45
+  node43:
+    image: thor:latest
+    container_name: thor-node-hack-43
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000053
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=43
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=10
+    ports:
+      - "10043:8669"
+      - "20043:11235"
+    volumes:
+      - ./config/keys/master.key.43:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node43:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.46
+  node44:
+    image: thor:latest
+    container_name: thor-node-hack-44
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000054
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=44
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=11
+    ports:
+      - "10044:8669"
+      - "20044:11235"
+    volumes:
+      - ./config/keys/master.key.44:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node44:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.47
+  node45:
+    image: thor:latest
+    container_name: thor-node-hack-45
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000055
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=45
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=12
+    ports:
+      - "10045:8669"
+      - "20045:11235"
+    volumes:
+      - ./config/keys/master.key.45:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node45:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.48
+  node46:
+    image: thor:latest
+    container_name: thor-node-hack-46
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000056
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=46
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=13
+    ports:
+      - "10046:8669"
+      - "20046:11235"
+    volumes:
+      - ./config/keys/master.key.46:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node46:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.49
+  node47:
+    image: thor:latest
+    container_name: thor-node-hack-47
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000057
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=47
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=14
+    ports:
+      - "10047:8669"
+      - "20047:11235"
+    volumes:
+      - ./config/keys/master.key.47:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node47:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.50
+  node48:
+    image: thor:latest
+    container_name: thor-node-hack-48
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000058
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=48
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=15
+    ports:
+      - "10048:8669"
+      - "20048:11235"
+    volumes:
+      - ./config/keys/master.key.48:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node48:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.51
+  node49:
+    image: thor:latest
+    container_name: thor-node-hack-49
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000059
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=49
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=16
+    ports:
+      - "10049:8669"
+      - "20049:11235"
+    volumes:
+      - ./config/keys/master.key.49:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node49:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.52
+  node50:
+    image: thor:latest
+    container_name: thor-node-hack-50
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000060
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=50
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=17
+    ports:
+      - "10050:8669"
+      - "20050:11235"
+    volumes:
+      - ./config/keys/master.key.50:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node50:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.53
+  node51:
+    image: thor:latest
+    container_name: thor-node-hack-51
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000061
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=51
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=18
+    ports:
+      - "10051:8669"
+      - "20051:11235"
+    volumes:
+      - ./config/keys/master.key.51:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node51:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.54
+  node52:
+    image: thor:latest
+    container_name: thor-node-hack-52
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000062
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=52
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=19
+    ports:
+      - "10052:8669"
+      - "20052:11235"
+    volumes:
+      - ./config/keys/master.key.52:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node52:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.55
+  node53:
+    image: thor:latest
+    container_name: thor-node-hack-53
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000063
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=53
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=20
+    ports:
+      - "10053:8669"
+      - "20053:11235"
+    volumes:
+      - ./config/keys/master.key.53:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node53:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.56
+  node54:
+    image: thor:latest
+    container_name: thor-node-hack-54
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000064
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=54
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=21
+    ports:
+      - "10054:8669"
+      - "20054:11235"
+    volumes:
+      - ./config/keys/master.key.54:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node54:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.57
+  node55:
+    image: thor:latest
+    container_name: thor-node-hack-55
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000065
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=55
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=22
+    ports:
+      - "10055:8669"
+      - "20055:11235"
+    volumes:
+      - ./config/keys/master.key.55:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node55:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.58
+  node56:
+    image: thor:latest
+    container_name: thor-node-hack-56
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000066
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=56
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=23
+    ports:
+      - "10056:8669"
+      - "20056:11235"
+    volumes:
+      - ./config/keys/master.key.56:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node56:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.59
+  node57:
+    image: thor:latest
+    container_name: thor-node-hack-57
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000067
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=57
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=24
+    ports:
+      - "10057:8669"
+      - "20057:11235"
+    volumes:
+      - ./config/keys/master.key.57:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node57:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.60
+  node58:
+    image: thor:latest
+    container_name: thor-node-hack-58
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000068
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=58
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=25
+    ports:
+      - "10058:8669"
+      - "20058:11235"
+    volumes:
+      - ./config/keys/master.key.58:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node58:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.61
+  node59:
+    image: thor:latest
+    container_name: thor-node-hack-59
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000069
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=59
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=26
+    ports:
+      - "10059:8669"
+      - "20059:11235"
+    volumes:
+      - ./config/keys/master.key.59:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node59:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.62
+  node60:
+    image: thor:latest
+    container_name: thor-node-hack-60
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000070
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=60
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=27
+    ports:
+      - "10060:8669"
+      - "20060:11235"
+    volumes:
+      - ./config/keys/master.key.60:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node60:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.63
+  node61:
+    image: thor:latest
+    container_name: thor-node-hack-61
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000071
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=61
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=28
+    ports:
+      - "10061:8669"
+      - "20061:11235"
+    volumes:
+      - ./config/keys/master.key.61:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node61:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.64
+  node62:
+    image: thor:latest
+    container_name: thor-node-hack-62
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000072
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=62
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=29
+    ports:
+      - "10062:8669"
+      - "20062:11235"
+    volumes:
+      - ./config/keys/master.key.62:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node62:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.65
+  node63:
+    image: thor:latest
+    container_name: thor-node-hack-63
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000073
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=63
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=30
+    ports:
+      - "10063:8669"
+      - "20063:11235"
+    volumes:
+      - ./config/keys/master.key.63:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node63:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.66
+  node64:
+    image: thor:latest
+    container_name: thor-node-hack-64
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000074
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=64
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=31
+    ports:
+      - "10064:8669"
+      - "20064:11235"
+    volumes:
+      - ./config/keys/master.key.64:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node64:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.67
+  node65:
+    image: thor:latest
+    container_name: thor-node-hack-65
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000075
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=65
+      - VE_HACK_SERVER_URL=vecenter:9000
+      - VE_HACK_CLIENT_INDEX=32
+    ports:
+      - "10065:8669"
+      - "20065:11235"
+    volumes:
+      - ./config/keys/master.key.65:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node65:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.68
+  node66:
+    image: thor:latest
+    container_name: thor-node-66
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000076
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=66
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10066:8669"
+      - "20066:11235"
+    volumes:
+      - ./config/keys/master.key.66:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node66:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.69
+  node67:
+    image: thor:latest
+    container_name: thor-node-67
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000077
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=67
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10067:8669"
+      - "20067:11235"
+    volumes:
+      - ./config/keys/master.key.67:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node67:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.70
+  node68:
+    image: thor:latest
+    container_name: thor-node-68
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000078
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=68
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10068:8669"
+      - "20068:11235"
+    volumes:
+      - ./config/keys/master.key.68:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node68:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.71
+  node69:
+    image: thor:latest
+    container_name: thor-node-69
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000079
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=69
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10069:8669"
+      - "20069:11235"
+    volumes:
+      - ./config/keys/master.key.69:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node69:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.72
+  node70:
+    image: thor:latest
+    container_name: thor-node-70
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000080
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=70
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10070:8669"
+      - "20070:11235"
+    volumes:
+      - ./config/keys/master.key.70:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node70:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.73
+  node71:
+    image: thor:latest
+    container_name: thor-node-71
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000081
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=71
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10071:8669"
+      - "20071:11235"
+    volumes:
+      - ./config/keys/master.key.71:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node71:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.74
+  node72:
+    image: thor:latest
+    container_name: thor-node-72
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000082
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=72
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10072:8669"
+      - "20072:11235"
+    volumes:
+      - ./config/keys/master.key.72:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node72:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.75
+  node73:
+    image: thor:latest
+    container_name: thor-node-73
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000083
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=73
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10073:8669"
+      - "20073:11235"
+    volumes:
+      - ./config/keys/master.key.73:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node73:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.76
+  node74:
+    image: thor:latest
+    container_name: thor-node-74
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000084
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=74
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10074:8669"
+      - "20074:11235"
+    volumes:
+      - ./config/keys/master.key.74:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node74:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.77
+  node75:
+    image: thor:latest
+    container_name: thor-node-75
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000085
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=75
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10075:8669"
+      - "20075:11235"
+    volumes:
+      - ./config/keys/master.key.75:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node75:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.78
+  node76:
+    image: thor:latest
+    container_name: thor-node-76
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000086
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=76
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10076:8669"
+      - "20076:11235"
+    volumes:
+      - ./config/keys/master.key.76:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node76:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.79
+  node77:
+    image: thor:latest
+    container_name: thor-node-77
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000087
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=77
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10077:8669"
+      - "20077:11235"
+    volumes:
+      - ./config/keys/master.key.77:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node77:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.80
+  node78:
+    image: thor:latest
+    container_name: thor-node-78
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000088
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=78
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10078:8669"
+      - "20078:11235"
+    volumes:
+      - ./config/keys/master.key.78:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node78:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.81
+  node79:
+    image: thor:latest
+    container_name: thor-node-79
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000089
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=79
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10079:8669"
+      - "20079:11235"
+    volumes:
+      - ./config/keys/master.key.79:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node79:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.82
+  node80:
+    image: thor:latest
+    container_name: thor-node-80
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000090
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=80
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10080:8669"
+      - "20080:11235"
+    volumes:
+      - ./config/keys/master.key.80:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node80:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.83
+  node81:
+    image: thor:latest
+    container_name: thor-node-81
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000091
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=81
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10081:8669"
+      - "20081:11235"
+    volumes:
+      - ./config/keys/master.key.81:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node81:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.84
+  node82:
+    image: thor:latest
+    container_name: thor-node-82
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000092
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=82
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10082:8669"
+      - "20082:11235"
+    volumes:
+      - ./config/keys/master.key.82:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node82:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.85
+  node83:
+    image: thor:latest
+    container_name: thor-node-83
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000093
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=83
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10083:8669"
+      - "20083:11235"
+    volumes:
+      - ./config/keys/master.key.83:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node83:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.86
+  node84:
+    image: thor:latest
+    container_name: thor-node-84
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000094
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=84
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10084:8669"
+      - "20084:11235"
+    volumes:
+      - ./config/keys/master.key.84:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node84:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.87
+  node85:
+    image: thor:latest
+    container_name: thor-node-85
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000095
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=85
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10085:8669"
+      - "20085:11235"
+    volumes:
+      - ./config/keys/master.key.85:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node85:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.88
+  node86:
+    image: thor:latest
+    container_name: thor-node-86
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000096
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=86
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10086:8669"
+      - "20086:11235"
+    volumes:
+      - ./config/keys/master.key.86:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node86:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.89
+  node87:
+    image: thor:latest
+    container_name: thor-node-87
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000097
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=87
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10087:8669"
+      - "20087:11235"
+    volumes:
+      - ./config/keys/master.key.87:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node87:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.90
+  node88:
+    image: thor:latest
+    container_name: thor-node-88
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000098
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=88
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10088:8669"
+      - "20088:11235"
+    volumes:
+      - ./config/keys/master.key.88:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node88:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.91
+  node89:
+    image: thor:latest
+    container_name: thor-node-89
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000099
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=89
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10089:8669"
+      - "20089:11235"
+    volumes:
+      - ./config/keys/master.key.89:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node89:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.92
+  node90:
+    image: thor:latest
+    container_name: thor-node-90
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000100
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=90
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10090:8669"
+      - "20090:11235"
+    volumes:
+      - ./config/keys/master.key.90:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node90:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.93
+  node91:
+    image: thor:latest
+    container_name: thor-node-91
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000101
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=91
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10091:8669"
+      - "20091:11235"
+    volumes:
+      - ./config/keys/master.key.91:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node91:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.94
+  node92:
+    image: thor:latest
+    container_name: thor-node-92
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000102
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=92
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10092:8669"
+      - "20092:11235"
+    volumes:
+      - ./config/keys/master.key.92:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node92:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.95
+  node93:
+    image: thor:latest
+    container_name: thor-node-93
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000103
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=93
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10093:8669"
+      - "20093:11235"
+    volumes:
+      - ./config/keys/master.key.93:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node93:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.96
+  node94:
+    image: thor:latest
+    container_name: thor-node-94
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000104
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=94
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10094:8669"
+      - "20094:11235"
+    volumes:
+      - ./config/keys/master.key.94:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node94:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.97
+  node95:
+    image: thor:latest
+    container_name: thor-node-95
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000105
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=95
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10095:8669"
+      - "20095:11235"
+    volumes:
+      - ./config/keys/master.key.95:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node95:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.98
+  node96:
+    image: thor:latest
+    container_name: thor-node-96
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000106
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=96
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10096:8669"
+      - "20096:11235"
+    volumes:
+      - ./config/keys/master.key.96:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node96:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.99
+  node97:
+    image: thor:latest
+    container_name: thor-node-97
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000107
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=97
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10097:8669"
+      - "20097:11235"
+    volumes:
+      - ./config/keys/master.key.97:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node97:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.100
+  node98:
+    image: thor:latest
+    container_name: thor-node-98
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000108
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=98
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10098:8669"
+      - "20098:11235"
+    volumes:
+      - ./config/keys/master.key.98:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node98:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.101
+  node99:
+    image: thor:latest
+    container_name: thor-node-99
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000109
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=99
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10099:8669"
+      - "20099:11235"
+    volumes:
+      - ./config/keys/master.key.99:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node99:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.102
+  node100:
+    image: thor:latest
+    container_name: thor-node-100
+    environment:
+      - BENEFICIARY=0x0000000000000000000000000000000000000110
+      - BOOTNODE=enode://bc18b2d7dd0daf50073f53f5c8e7aecb41387275efb5fd0e41ec3b87ce2804353692c38a9774777ce39ba0de61648cd7adc70d3fc29692b46c5f520f542a7824@172.99.1.1:11235
+      - ACCOUNT_IDX=100
+      - VE_P2P_SERVER_URL=vecenter:9000
+    ports:
+      - "10100:8669"
+      - "20100:11235"
+    volumes:
+      - ./config/keys/master.key.100:/root/.org.vechain.thor/master.key
+      - ./config/genesis.json:/root/genesis.json
+      - ./config/accounts.json:/root/account.json
+      - ./data/node100:/root/node
+    depends_on:
+      - bootnode
+      - vecenter
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 100
+        window: 120s
+    networks:
+      thor-testnet:
+        ipv4_address: 172.99.1.103
+networks:
+  thor-testnet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.99.0.0/16
